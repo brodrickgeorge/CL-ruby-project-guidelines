@@ -2,14 +2,10 @@ require_relative '../config/environment'
 
 
 def display_title
-    font = TTY::Font.new("3d")
-    pastel = Pastel.new
-    puts pastel.green(font.write("Welcome!"))
-    puts pastel.yellow(font.write("To"))
-    puts pastel.blue(font.write("ThisMusicApp"))
-    sleep(1,)
+     Banner.welcome_banner
 end
 display_title
+sleep(3,)
 system "clear"
 
 current_user = User.setup_user
