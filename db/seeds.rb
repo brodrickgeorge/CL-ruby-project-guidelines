@@ -73,7 +73,7 @@ song25 = Song.create(name: "Heathers", artist: "Surf Curse", genre: "Indie", emo
 
 
 
-us1 = UserSong.create(user_id: user1.id, song_id: song1.id)
+UserSong.create(user_id: user1.id, song_id: song1.id)
 us1 = UserSong.create(user_id: user1.id, song_id: song2.id)
 us1 = UserSong.create(user_id: user1.id, song_id: song3.id)
 us1 = UserSong.create(user_id: user1.id, song_id: song4.id)
