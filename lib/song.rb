@@ -3,6 +3,83 @@ class Song < ActiveRecord::Base
     has_many :users, through: :user_songs
 
 
+    
+    def self.find_songs_by_genre(genre)
+        self.all.select do |song|
+            song.genre == genre
+        end
+    end
+    
+
+    def self.find_songs_by_emotion(emotion)
+        Song.all.select do |song|
+            song.emotion == emotion
+        end
+    end
+    
+
+    def self.show_emotion
+        prompt = TTY::Prompt.new
+        input = prompt.select("Please choose an emotion!", %w(Angry Sad Excited Chill Happy Go_Back))
+        system "clear"
+        songs = Song.find_songs_by_emotion(input)
+        
+        case input
+        when "Go_Back"
+            Song.show_categories
+            
+        else
+            songs.each do |song|
+                puts "#{song.name} - #{song.artist}"
+            end
+            sleep(5,)
+            system "clear"
+            show_emotion
+        end
+    end
+    
+
+    def self.show_categories
+        prompt = TTY::Prompt.new
+        user_input = prompt.select("Choose one!", %w(Mood! Genre! Main_Menu!))
+        system "clear"
+        case user_input
+        when "Mood!"
+            Song.show_emotion
+            sleep(5,)
+            system "clear"
+            
+        when "Genre!"
+            Song.show_genre
+            sleep(5,)
+            system "clear"
+            
+        when "Main_Menu!"
+            show_options
+        end
+    end
+    
+    
+    def self.show_genre
+        prompt = TTY::Prompt.new
+        input = prompt.select("Please choose a genre!", %w(Pop Country HipHop Latin Indie Go_Back))
+        system "clear"
+        songs = Song.find_songs_by_genre(input)
+        
+        case input
+        when "Go_Back"
+            Song.show_categories
+        else 
+            songs.each do |song|
+                puts "#{song.name} - #{song.artist}"
+            end 
+        end
+        sleep(5,)
+        system "clear"
+        show_genre
+    end
+    
+
     def self.song_shuffle
         array = []
           song_info= Song.all.map do |song|
@@ -300,101 +377,26 @@ class Song < ActiveRecord::Base
                   show_options
               end
             end
-
-
-
-
-
-
-    def self.find_songs_by_genre(genre)
-        self.all.select do |song|
-            song.genre == genre
-        end
-    end
-
-
-    def self.find_songs_by_emotion(emotion)
-        Song.all.select do |song|
-            song.emotion == emotion
-        end
-    end
-
-    def self.show_emotion
-        prompt = TTY::Prompt.new
-        input = prompt.select("Please choose an emotion!", %w(Angry Sad Excited Chill Happy Go_Back))
-        system "clear"
-        songs = Song.find_songs_by_emotion(input)
-        
-        case input
-        when "Go_Back"
-            Song.show_categories
     
-        else
-            songs.each do |song|
-            puts "#{song.name} - #{song.artist}"
-            end
-                sleep(5,)
-                system "clear"
-                show_emotion
-        end
-    end
 
 
-    def self.show_categories
-        prompt = TTY::Prompt.new
-        user_input = prompt.select("Choose one!", %w(Mood! Genre! Main_Menu!))
-        system "clear"
-        case user_input
-                when "Mood!"
-                Song.show_emotion
-                sleep(5,)
-                system "clear"
-    
-                when "Genre!"
-                Song.show_genre
-                sleep(5,)
-                system "clear"
-
-                when "Main_Menu!"
-                show_options
-            end
-    end
 
 
-      def self.show_genre
-        prompt = TTY::Prompt.new
-        input = prompt.select("Please choose a genre!", %w(Pop Country HipHop Latin Indie Go_Back))
-        system "clear"
-        songs = Song.find_songs_by_genre(input)
-        
-        case input
-                when "Go_Back"
-                Song.show_categories
-                else 
-                songs.each do |song|
-                puts "#{song.name} - #{song.artist}"
-                end 
-        end
-        sleep(5,)
-        system "clear"
-        show_genre
-      end
-      
 
-     def self.list_of_songs
+    def self.list_of_songs
         prompt = TTY::Prompt.new
         song_info = Song.all.map do |song|
             "#{song.name} - #{song.artist}"
-          end
-          user_input = prompt.select("Play a song!", %w(Add_Song Delete_Song), song_info, %w(Main_Menu))
-              system "clear"
-              case user_input
-              when "Nights - Frank Ocean"
-                pid = fork{ exec "afplay", "music/nights.mp3" }
-                input = prompt.select("Now listening to Nights by Frank Ocean", %w(Go_Back))
-                 case input
-                when "Go_Back"
-                 system "killall afplay"
+        end
+        user_input = prompt.select("Play a song!", %w(Add_Song Delete_Song), song_info, %w(Main_Menu))
+        system "clear"
+        case user_input
+        when "Nights - Frank Ocean"
+            pid = fork{ exec "afplay", "music/nights.mp3" }
+            input = prompt.select("Now listening to Nights by Frank Ocean", %w(Go_Back))
+            case input
+            when "Go_Back"
+                system "killall afplay"
                  system "clear"
                  list_of_songs
               end
@@ -645,44 +647,5 @@ class Song < ActiveRecord::Base
                   show_options
               end
         end
-
-
-        def self.banner
-          puts  "
-                
-                    
-                                     (/////////////////////////////////////////////)
-                                 ///////////////////////////////////////////////////////
-                              /////////////////////////////////////////////////////////////
-                             ///////////////////////////////////////////////////////////////
-                            ///////////////////////////////////////////*.  ,/////////////////
-                           ////////////////////////////////,                /////////////////
-                           ////////////////////////                         //////////////////
-                           /(((((//////////////////                         /////////////////,
-                           (((((((((///////////////                         ////////////////**
-                           (((((((((((((((/////////         .*///////////.  ///////*/*********
-                           (((((((((((((((((///////  ////////////////////.  ******************
-                           (((((((((((((((((((/////  ///////////////////*.  ******************
-                           ((((((((((((((((((((////  //////////////******.  ******************
-                           ((((((((((((((((((((////  ///////////*********.  ******************
-                           ((((((((((((((((((((////  //////////**********.  ******************
-                           ((((((((((((((((((//////  ////////************   ******************
-                           (((((((((((((((((///////  ///////*******         ******************
-                           (((((((((((((((////////,  //////*****            ******************
-                           ((((((((((((////          /////*****            ,******************
-                           (((((((((////(            ////*******          ,*******************
-                           (((//////////*            ////***********,*************************
-                           //////////////          .////*************************************/
-                            ///////////////////////////**************************************
-                             //////////////////////////*************************************
-                              ////////////////////////*************************************
-                                 ////////////////////***********************************
-                                      (//////////////******************************
-                    
-                    "
-
-        end
-     
-
 
 end 

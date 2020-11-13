@@ -24,8 +24,6 @@ def show_options
     when "Favorites!"
           system "clear"
           Song.list_of_songs
-            
-           
         
         when "Categories!"
             Song.show_categories  
