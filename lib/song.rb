@@ -650,9 +650,3 @@ class Song < ActiveRecord::Base
 
 
 end 
-
-
-
-
-# song_info = Song.all.map do |song|
-#     puts "#{song.name} - #{song.artist}"
