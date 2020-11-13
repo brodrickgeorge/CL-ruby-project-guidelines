@@ -342,7 +342,7 @@ class Song < ActiveRecord::Base
 
     def self.show_categories
         prompt = TTY::Prompt.new
-        user_input = prompt.select("Choose one!", %w(Mood! Genre Main_Menu!))
+        user_input = prompt.select("Choose one!", %w(Mood! Genre! Main_Menu!))
         system "clear"
         case user_input
                 when "Mood!"
