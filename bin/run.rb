@@ -4,7 +4,7 @@ Banner.welcome_banner
 sleep(2,)
 system "clear"
 User.setup_user
-    
+
 
 def show_options
   prompt = TTY::Prompt.new
@@ -18,7 +18,7 @@ def show_options
 
     when "Favorites!"
       system "clear"
-      Song.list_of_songs(current_user)
+      Song.list_of_songs
         
     when "Categories!"
       Song.show_categories  
