@@ -34,13 +34,4 @@ class Banner
               "
 
   end
-
-
-
-  def self.using_banner
-    font = TTY::Font.new("3d")
-      pastel = Pastel.new
-    puts pastel.green(font.write("Welcome!"))
-  end
-
 end

@@ -1,15 +1,10 @@
 require_relative '../config/environment'
 
-
-def display_title
-     Banner.welcome_banner
-end
-display_title
-sleep(3,)
+Banner.welcome_banner
+sleep(2,)
 system "clear"
-
-current_user = User.setup_user
-
+User.setup_user
+    
 
 def show_options
   prompt = TTY::Prompt.new
@@ -22,18 +17,16 @@ def show_options
       Song.song_shuffle
 
     when "Favorites!"
-          system "clear"
-          Song.list_of_songs
+      system "clear"
+      Song.list_of_songs(current_user)
         
-        when "Categories!"
-            Song.show_categories  
+    when "Categories!"
+      Song.show_categories  
             
-        else 
-            system "clear"
-            puts "Goodbye!"
-        end
-    end
-    show_options
-    
-    
+    else 
+      system "clear"
+      puts "Goodbye!"
+  end
+end
+show_options
     
