@@ -21,7 +21,7 @@ class Song < ActiveRecord::Base
         
 
     def self.show_emotion
-        input = prompt.select("Please choose an emotion!", %w(Angry Sad Excited Chill Happy Go_Back))
+        input = $prompt.select("Please choose an emotion!", %w(Angry Sad Excited Chill Happy Go_Back))
         system "clear"
         songs = Song.find_songs_by_emotion(input)
             
