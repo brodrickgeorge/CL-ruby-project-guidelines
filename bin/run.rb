@@ -1,14 +1,15 @@
 require_relative '../config/environment'
-
+$prompt = TTY::Prompt.new(symbols: {marker: '🎶'})
+fork{ exec "afplay", "music/mac.mp3" }
 Banner.welcome_banner
-sleep(2,)
+sleep(3)
+"killall afplay"
 system "clear"
 User.setup_user
 
 
 def show_options
-  prompt = TTY::Prompt.new
-  show_options_input = prompt.select("What would you like to do?", %w(Shuffle! Favorites! Categories! Exit!))
+  show_options_input = $prompt.select("What would you like to do?", %w(Shuffle! Favorites! Categories! Logout!))
   system "clear"
 
   case show_options_input
@@ -25,7 +26,9 @@ def show_options
             
     else 
       system "clear"
-      puts "Goodbye!"
+      Banner.emoji
+      sleep(2)
+      system "clear"
   end
 end
 show_options

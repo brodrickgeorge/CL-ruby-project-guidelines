@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-    has_many :user_songs
-    has_many :songs, through: :user_songs
-
+  has_many :user_songs
+  has_many :songs, through: :user_songs
+  $prompt2 = TTY::Prompt.new(symbols: {marker: '⭕️'})
 
   def self.current_user
     if @current_user
@@ -13,8 +13,7 @@ class User < ActiveRecord::Base
 
   def self.setup_user
     system "clear"
-    prompt = TTY::Prompt.new
-    user_input = prompt.select("Please LogIn or SignUp!", %w(Login SignUp))
+    user_input = $prompt2.select("Please LogIn or SignUp!", %w(Login SignUp))
     system "clear"
     if user_input == "SignUp"
       self.create_new_user
@@ -27,9 +26,11 @@ class User < ActiveRecord::Base
   def self.create_new_user
     puts "Please create username:"
     user_name = gets.chomp
+    system "clear"
     if User.find_by(name: user_name)
-      puts "Username already taken"
-      create_new_user
+      puts "User already exist!"
+      sleep(3)
+      setup_user
     else
       @current_user = User.create(name: user_name)
       puts "Created Account! Welcome, #{@current_user.name}!"
@@ -45,11 +46,11 @@ class User < ActiveRecord::Base
     if @new_user
       puts "Welcome back, #{@new_user.name}!"
     else
-      puts "Username not found!"
-      find_existing_user
+      puts "User not found!"
+      sleep (3)
+      setup_user
     end
     @new_user
   end
-    
 end
 
