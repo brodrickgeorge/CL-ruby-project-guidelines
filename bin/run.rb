@@ -1,6 +1,6 @@
 require_relative '../config/environment'
 $prompt = TTY::Prompt.new(symbols: {marker: '🎶'})
-
+fork{ exec "afplay", "music/mac.mp3" }
 Banner.welcome_banner
 sleep(3)
 "killall afplay"
