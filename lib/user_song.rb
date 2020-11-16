@@ -18,7 +18,7 @@ class UserSong < ActiveRecord::Base
             Song.list_of_songs
         when "Logout!"
             system "clear"
-            puts "Goodbye!"
+            Banner.emoji
             sleep(2)
         end
     end
@@ -39,7 +39,7 @@ class UserSong < ActiveRecord::Base
             Song.list_of_songs
         when "Logout!"
             system "clear"
-            puts "Goodbye!"
+            Banner.emoji
             sleep(2)
         end
     end
